@@ -1,0 +1,172 @@
+// the setup function runs once when you press reset or power the board
+#define dur 500000
+
+void delay1(void);
+void blink1();
+void blink2();
+long i;
+long j;
+
+void setup() {
+  
+  pinMode(5, OUTPUT);    // LED1
+  pinMode(6, OUTPUT);    // LED2
+  pinMode(7, OUTPUT);    // LED3
+  pinMode(8, OUTPUT);    // LED4
+
+  pinMode(9, OUTPUT);    // BUZZER
+  analogWrite(9, 125);   // BUZZER_SOUND
+
+  pinMode(14, INPUT);    // 10K_POTENTIOMETER
+  pinMode(15, INPUT);    // LDR
+
+  attachInterrupt(digitalPinToInterrupt(2), blink1, RISING);
+  attachInterrupt(digitalPinToInterrupt(3), blink2, FALLING);
+
+  digitalWrite(5, LOW);  // OFF all LED
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(6, HIGH);
+  digitalWrite(7, LOW);
+
+  LDR();
+  POTENTIOMETER();
+  
+  delay(500);                       // wait for 0.5 second
+
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+
+  LDR();
+  POTENTIOMETER();
+
+  delay(500);                       // wait for 0.5 second
+
+
+}
+
+void blink1() {
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }                  // wait for a second
+  digitalWrite(5, LOW);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+}
+
+void blink2() {
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, LOW);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, LOW);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  for (i = 0; i < dur; i++) {
+    for (j = 0; j < dur; j++) {
+      j++;
+      j--;                      //waste time
+    }
+  }
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+}
+
+void LDR() {
+  int value = analogRead(14);
+  int intensity = map(value, 0, 1024, 0, 255);
+  analogWrite(5, intensity);
+}
+
+void POTENTIOMETER() {
+  int volt = analogRead(15);
+  if (volt < 200) {
+    digitalWrite(8, LOW);
+  }
+  else {
+    digitalWrite(8, HIGH);
+  }
+}
